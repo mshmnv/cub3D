@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 16:51:01 by lbagg             #+#    #+#             */
-/*   Updated: 2020/09/22 14:06:39 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/02 14:29:36 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,24 +39,6 @@ void	pixel_put(t_params *params, int x, int y, int color)
     *(unsigned int*)dst = color;
 }
 
-// int		press_key(int key, t_all *all)
-// {
-// 	if (key == KEY_A)
-// 		all->player->x -= 1;
-// 	if (key == KEY_D)
-// 		all->player->x += 1;
-// 	if (key == KEY_W)
-// 		all->player->y += 1;
-// 	if (key == KEY_S)
-// 		all->player->y -= 1;
-// 	if (key == KEY_ESC)
-// 		exit(0);	
-// 	print_map(all);
-// 	print_player(all);
-// 	cast_ray(all);
-// 	return (0);
-// }
-
 int		press_key(int key, t_all *all)
 {
 	if (key == KEY_A)
@@ -82,7 +64,7 @@ int		press_key(int key, t_all *all)
 		all->player->y += sin(all->player->dir) * 4;
 	}
 	if (key == KEY_ESC)
-		exit(0);	
+		exit(0);
 	print_map(all);
 	print_player(all);
 	cast_ray(all);

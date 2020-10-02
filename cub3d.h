@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 17:51:16 by lbagg             #+#    #+#             */
-/*   Updated: 2020/09/21 13:41:06 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/02 14:30:39 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@
 
 typedef struct	s_player
 {
-	int			x;
-	int			y;
+	float			x;
+	float			y;
 	float		dir;
 }				t_player;
 
@@ -89,8 +89,10 @@ void			print_map(t_all *all);
 void			print_player(t_all *all);
 int				press_key(int key, t_all *all);
 int				display(t_all *all);
+float			what_dir(char c);
 
 void			cast_ray(t_all *all);
-float			what_dir(char c);
+void			print_line(t_all *all, t_player *ray, t_player *player, int length);
+
 
 #endif
