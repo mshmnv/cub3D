@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 16:51:01 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/04 16:11:40 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/04 22:40:59 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,13 @@ int		press_key(int key, t_all *all)
 {
 	if (key == KEY_A)
 	{
-		all->player->dir -= 0.1;
-		if (all->player->dir < 0)
-			all->player->dir += 2 * PI;
+		all->player->x += sin(all->player->dir) * 4;
+		all->player->y -= cos(all->player->dir) * 4;
 	}
 	if (key == KEY_D)
 	{
-		all->player->dir += 0.1;
-		if (all->player->dir > 2 * PI)
-			all->player->dir -= 2 * PI;
+		all->player->x -= sin(all->player->dir) * 4;
+		all->player->y += cos(all->player->dir) * 4;
 	}
 	if (key == KEY_S)
 	{
@@ -62,6 +60,18 @@ int		press_key(int key, t_all *all)
 	{
 		all->player->x += cos(all->player->dir) * 4;
 		all->player->y += sin(all->player->dir) * 4;
+	}
+	if (key == KEY_LEFT)
+	{
+		all->player->dir -= 0.1;
+		if (all->player->dir < 0)
+			all->player->dir += 2 * PI;
+	}
+	if (key == KEY_RIGHT)
+	{
+		all->player->dir += 0.1;
+		if (all->player->dir > 2 * PI)
+			all->player->dir -= 2 * PI;
 	}
 	if (key == KEY_ESC)
 		exit(0);
