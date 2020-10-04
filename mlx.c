@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 16:51:01 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/02 14:29:36 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/04 16:11:40 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	mlx(char **map)
 	t_all		all;
 
 	params.mlx = mlx_init();
-	params.win = mlx_new_window(params.mlx, 900, 600, "CUB3D");
-	params.img = mlx_new_image(params.mlx, 900, 600);
+	params.win = mlx_new_window(params.mlx, 1200, 800, "CUB3D");
+	params.img = mlx_new_image(params.mlx, 1200, 800);
 	params.addr = mlx_get_data_addr(params.img, &params.bits_per_pixel, &params.line_length, &params.endian);
 	all.params = &params;
 	all.player = &player;
@@ -67,7 +67,7 @@ int		press_key(int key, t_all *all)
 		exit(0);
 	print_map(all);
 	print_player(all);
-	cast_ray(all);
+	cast_rays(all);
 	return (0);
 }
 
@@ -95,6 +95,7 @@ void	print_square(t_params *params, int x, int y, int color)
 ** green	0x43723E
 ** red		0xE45F42
 ** beige	0xDAC890
+** black	0x000000
 */
 
 void	print_player(t_all *all)

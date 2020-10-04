@@ -6,118 +6,135 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/25 18:43:43 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/02 20:00:26 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/04 18:55:51 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	print_line(t_all *all, t_player *ray, t_player *player, int length)
+void	print_line(t_all *all, int length, t_player *ray)
 {
-	int	x;
-	int	y;
+	float	x;
+	float	y;
 	int	i;
 
-	x = player->x;
-	y = player->y;
-
-	pixel_put(all->params, ray->x, ray->y, 0xDAC890);
+	x = all->player->x;
+	y = all->player->y;
 	i = 0;
-	// while (i < length)
-	// {
-	// 	x += cos(player->dir);
-	// 	y += sin(player->dir);
-	// 	pixel_put(all->params, x, y, 0xDAC890);
-	// 	i++;
-	// }
+	while (i < length)
+	{
+		pixel_put(all->params, x + i * cos(ray->dir), y + i * sin(ray->dir), 0xDAC890);
+		i++;
+	}
 }
 
-int		height_len(char **map, int ray_x, int ray_y)
+int		height_len(char **map)
 {
 	int	i;
-	int	j;
 
 	i = 0;
 	while (map[i])
-	{
-		j = 0;
-		while (map[j])
-		{
-			j++;
-		}
 		i++;
-	}
 	return (i);
 }
 
-int		vertic_length(t_player *ray, t_all *all)
+float		vertic_length(t_player *ray, t_all *all)
 {
-	int	vertical;
-	int	x_offset;
+	float	vertical;
+	int		x_offset;
 
-	*ray = *all->player;
-	if ((all->player->dir < (PI / 2)) || (all->player->dir > (3 * PI / 2)))		// right
+	x_offset = SCALE;
+	if ((ray->dir < (PI / 2)) || (ray->dir > (3 * PI / 2)))		// right
+		ray->x = (int)(all->player->x / SCALE) * SCALE + SCALE;
+	if ((ray->dir > (PI / 2)) && (ray->dir < (3 * PI / 2)))		// left
 	{
-		ray->x = (all->player->x / 16) * 16 + 16;
-		x_offset = 16;
+		ray->x = (int)(all->player->x / SCALE) * SCALE - 0.0001;
+		x_offset *= -1;
 	}
-	if ((all->player->dir > (PI / 2)) && (all->player->dir < (3 * PI / 2)))		// left
+	ray->y = all->player->y + (ray->x - all->player->x) * tan(ray->dir);
+	while (ray->x > 0 && ray->y > 0 && ray->x < ft_strlen(all->map[(int)all->player->y / SCALE]) * SCALE &&
+	(int)(ray->y / SCALE) < height_len(all->map) && all->map[(int)(ray->y / SCALE)][(int)(ray->x / SCALE)] != '1')
 	{
-		ray->x = (all->player->x / 16) * 16 - 1;
-		x_offset = -16;
-	}
-	ray->y = all->player->y + (ray->x - all->player->x) * tan(all->player->dir);
-	while ((ray->x > 0) && (ray->y > 0) && ((ray->y / 16) < height_len(all->map, ray->y, ray->x)) && (all->map[(int)ray->y / 16][(int)ray->x / 16] != '1'))
-	{
-		pixel_put(all->params, ray->x, ray->y, 0xDAC890);
 		ray->x += x_offset;
-		ray->y += x_offset * tan(all->player->dir);
+		ray->y += x_offset * tan(ray->dir);
 	}
-	// printf("%f %f %f\n", all->player->x, all->player->y, all->player->dir);
-	// printf("%f %f\n", ray->x, ray->y);
-	vertical = sqrt(pow(all->player->x - ray->x, 2) + pow(all->player->y - ray->y, 2));
-	// printf("%d\n", vertical);
+	vertical = sqrtf(pow(all->player->x - ray->x, 2) + pow(all->player->y - ray->y, 2));
 	return (vertical);
 }
 
-int		horizont_length(t_player *ray, t_all *all)
+float		horizont_length(t_player *ray, t_all *all)
 {
-	int	horizontal;
-	int	y_offset;
+	float	horizontal;
+	int		y_offset;
 
-	*ray = *all->player;
-	if (all->player->dir < PI)
+	y_offset = SCALE;
+	if (ray->dir < PI)
+		ray->y = (int)(all->player->y / SCALE) * SCALE + SCALE;
+	else if (ray->dir > PI)
 	{
-		ray->y = (all->player->y / 16) * 16 + 16;
-		y_offset = 16;
+		ray->y = (int)(all->player->y / SCALE) * SCALE - 0.0001;
+		y_offset *= -1;
 	}
-	else if (all->player->dir > PI)
-	{
-		ray->y = (all->player->y / 16) * 16 - 1;
-		y_offset = -16;
-	}
-	while ((ray->x > 0) && (ray->y > 0)  && ((ray->x / 16) < ft_strlen(all->map[(int)all->player->y / 16])) && (all->map[(int)ray->y / 16][(int)ray->x / 16] != '1'))
+	ray->x = all->player->x + (ray->y - all->player->y) / tan(ray->dir);
+	while (ray->x > 0 && ray->y > 0  && ray->x < ft_strlen(all->map[(int)(all->player->y / SCALE)]) * SCALE &&
+	(int)(ray->y / SCALE) < height_len(all->map) && all->map[(int)(ray->y / SCALE)][(int)(ray->x / SCALE)] != '1')
 	{
 		ray->y += y_offset;
-		ray->x += y_offset / tan(all->player->dir);
+		ray->x += y_offset / tan(ray->dir);
 	}
-	horizontal = sqrt(pow(all->player->x - ray->x, 2) + pow(all->player->y - ray->y, 2));
+	horizontal = sqrtf(pow(all->player->x - ray->x, 2) + pow(all->player->y - ray->y, 2));
 	return (horizontal);
 }
 
-void	cast_ray(t_all *all)
+void	cast_rays(t_all *all)
 {
-	t_player	ray;
-	int			horizontal;
-	int			vertical;
+	t_player	ray_h;
+	t_player	ray_v;
+	float		start;
+	float		end;
+	float		horizontal;
+	float		vertical;
+	float		dist;
+	float		line_height;
 
-
-	horizontal = horizont_length(&ray, all);
-	print_line(all, &ray, all->player, horizontal);
-
-	// vertical = vertic_length(&ray, all);
-	// printf("%f %f %f\n", all->player->x, all->player->y, all->player->dir);
-	// printf("%f %f\n", ray.x, ray.y);
-	// printf("%d\n", vertical);
-	// print_line(all, &ray, all->player, vertical);
+	end = all->player->dir + PI / 6;
+	start = all->player->dir - PI / 6;
+	ray_h = *all->player;
+	ray_v = *all->player;
+	while (start <= end)
+	{
+		ray_h.dir = start;
+		ray_v.dir = start;
+		horizontal = horizont_length(&ray_h, all);
+		vertical = vertic_length(&ray_v, all);
+		if (horizontal < vertical && horizontal > 0)
+		{
+			
+			// printf("%f %f\n", ray_h.x, ray_h.y);
+			// printf("%f\n", horizontal);
+			print_line(all, horizontal, &ray_h);
+			pixel_put(all->params, ray_h.x, ray_h.y, 0x000000);
+			// dist = horizontal;
+		}
+		// else if (vertical < horizontal && vertical > 0)
+		// {
+			// print_line(all, vertical, &ray_v);
+		// 	dist = vertical;
+		// }
+		// else if (vertical < 0)
+		// {
+		// 	print_line(all, horizontal, &ray_h);
+		// 	dist = horizontal;
+		// }
+		// else if (horizontal < 0)
+		// {
+		// 	print_line(all, vertical, &ray_v);
+		// 	dist = vertical;
+		// }
+		start += (PI / 3 ) / 60;
+		// line_height = 
+		// printf("%d\n", dist);
+		// break;
+	}
+	printf("\n\n");
 }

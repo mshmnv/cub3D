@@ -6,7 +6,7 @@ NAME = cub3D
 
 all: $(NAME)
 
-$(NAME): $(SRC) main.c
+$(NAME): $(SRC) main.c cub3d.h
 	gcc main.c $(SRC) get_next_line/get_next_line.c libft/libft.a libmlx.dylib -framework OpenGL -framework Appkit -o $(NAME)
 
 clean:

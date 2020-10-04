@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 17:51:16 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/02 14:30:39 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/04 17:19:21 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <fcntl.h>
 # include <math.h>
 
-# define SCALE		16
+# define SCALE		32
 # define KEY_A		0
 # define KEY_W		13
 # define KEY_D		2
@@ -91,8 +91,11 @@ int				press_key(int key, t_all *all);
 int				display(t_all *all);
 float			what_dir(char c);
 
-void			cast_ray(t_all *all);
-void			print_line(t_all *all, t_player *ray, t_player *player, int length);
+void			cast_rays(t_all *all);
+float			vertic_length(t_player *ray, t_all *all);
+float			horizont_length(t_player *ray, t_all *all);
+void			print_line(t_all *all, int length, t_player *ray);
+int				height_len(char **map);
 
 
 #endif
