@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 17:51:16 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/05 10:34:02 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/05 19:15:56 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,10 @@ float			what_dir(char c);
 void			cast_rays(t_all *all);
 float			vertic_length(t_player *ray, t_all *all);
 float			horizont_length(t_player *ray, t_all *all);
-void			print_line(t_all *all, int length, t_player *ray);
+void			print_line(t_all *all, int length, float dir);
 int				height_len(char **map);
+float			fix_ray(float ray);
 
-void			print_3d(t_all *all, float dist, int ray_x);
+void			print_3d(t_all *all, float dist, int num_ray);
 
 #endif

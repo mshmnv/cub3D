@@ -6,35 +6,31 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/05 09:29:00 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/05 10:35:10 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/05 19:05:04 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	print_vertical(t_all *all, int start, int end, int ray_x)
-{
-	while (start <= end)
-	{
-		pixel_put(all->params, ray_x, start, 0xDAC890);
-		start++;
-	}
-}
+// void	print_vertical(t_all *all, int num_ray,)
+// {
+// 	while ()
+// }
 
-void	print_3d(t_all *all, float dist, int ray_x)
+void	print_3d(t_all *all, float dist, int num_ray)
 {
 	int	line_height;
-	int	start;
-	int end;
+	int	line_offset;
+	int	end;
 
-	line_height = (SCALE * 320) / dist;
-	if (line_height > 320)
-		line_height = 320;
-	start = 160 - line_height / 2;
-	if (start < 0)
-		start = 0;
-	end = 160 + line_height / 2;
-	if (end >= 320)
-		end = 320 - 1;
-	print_vertical(all, start, end, ray_x);
+	line_height = (SCALE * 500) / dist;
+	if (line_height > 500)
+		line_height = 500;
+	line_offset = 250 - line_height / 2;
+	end = line_offset + line_height;
+	while (line_offset <= end)
+	{
+		pixel_put(all->params, num_ray  + 500, line_offset, 0xDAC890);
+		line_offset++;
+	}
 }

@@ -6,11 +6,18 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 16:51:01 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/05 10:36:23 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/05 19:18:28 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+/*
+** green	0x43723E
+** red		0xE45F42
+** beige	0xDAC890
+** black	0x000000
+*/
 
 void	mlx(char **map)
 {
@@ -64,14 +71,12 @@ int		press_key(int key, t_all *all)
 	if (key == KEY_LEFT)
 	{
 		all->player->dir -= 0.1;
-		if (all->player->dir < 0)
-			all->player->dir += 2 * PI;
+		all->player->dir = fix_ray(all->player->dir);
 	}
 	if (key == KEY_RIGHT)
 	{
 		all->player->dir += 0.1;
-		if (all->player->dir > 2 * PI)
-			all->player->dir -= 2 * PI;
+		all->player->dir = fix_ray(all->player->dir);
 	}
 	if (key == KEY_ESC)
 		exit(0);
@@ -100,13 +105,6 @@ void	print_square(t_params *params, int x, int y, int color)
 		y++;
 	}
 }
-
-/*
-** green	0x43723E
-** red		0xE45F42
-** beige	0xDAC890
-** black	0x000000
-*/
 
 void	print_player(t_all *all)
 {

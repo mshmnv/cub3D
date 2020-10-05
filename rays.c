@@ -6,13 +6,13 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/25 18:43:43 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/05 10:33:22 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/05 19:21:03 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	print_line(t_all *all, int length, t_player *ray)
+void	print_line(t_all *all, int length, float dir)
 {
 	float	x;
 	float	y;
@@ -23,7 +23,7 @@ void	print_line(t_all *all, int length, t_player *ray)
 	i = 0;
 	while (i < length)
 	{
-		pixel_put(all->params, x + i * cos(ray->dir), y + i * sin(ray->dir), 0xDAC890);
+		pixel_put(all->params, x + i * cos(dir), y + i * sin(dir), 0xDAC890);
 		i++;
 	}
 }
@@ -86,6 +86,34 @@ float		horizont_length(t_player *ray, t_all *all)
 	return (horizontal);
 }
 
+
+void	color_screen(t_all *all)
+{
+	int	x;
+	int	y;
+
+	x = 500;
+	while (x < 1000)
+	{
+		y = 0;
+		while (y < 500)
+		{
+			pixel_put(all->params, x, y, 0xE45F42);
+			y++;
+		}
+		x++;
+	}
+}
+
+float	fix_ray(float ray)
+{
+	if (ray > 2 * PI)
+		ray -= 2 * PI;
+	else if (ray < 0)
+		ray += 2 * PI;
+	return (ray);
+}
+
 void	cast_rays(t_all *all)
 {
 	t_player	ray_h;
@@ -94,34 +122,39 @@ void	cast_rays(t_all *all)
 	float		end;
 	float		horizontal;
 	float		vertical;
-	int			i;
+	int			num_ray;
+	float		ang_dist;
 
 	end = all->player->dir + PI / 6;
 	start = all->player->dir - PI / 6;
 	ray_h = *all->player;
 	ray_v = *all->player;
-	i = 0;
-	while (i < 500)
+	num_ray = 0;
+	color_screen(all);
+	while (num_ray < 500)
 	{
-		if (start > 2 * PI)
-			start -= 2 * PI;
-		else if (start < 0)
-			start += 2 * PI;
+		start = fix_ray(start);
 		ray_h.dir = start;
 		ray_v.dir = start;
 		horizontal = horizont_length(&ray_h, all);
 		vertical = vertic_length(&ray_v, all);
 		if (horizontal < vertical && horizontal > 0)
 		{
-			print_line(all, horizontal, &ray_h);
-			print_3d(all, horizontal, ray_h.x + 450);
+			print_line(all, horizontal, ray_h.dir);
+			ang_dist = all->player->dir - ray_h.dir;
+			ang_dist = fix_ray(ang_dist);
+			horizontal = horizontal * cos(ang_dist);
+			print_3d(all, horizontal, num_ray);
 		}
 		else if (vertical < horizontal && vertical > 0)
 		{
-			print_line(all, vertical, &ray_v);
-			print_3d(all, vertical, ray_v.x + 450);
+			print_line(all, vertical, ray_v.dir);
+			ang_dist = all->player->dir - ray_v.dir;
+			ang_dist = fix_ray(ang_dist);
+			vertical = vertical * cos(ang_dist);
+			print_3d(all, vertical, num_ray);
 		}
 		start += (PI / 3 ) / 500;
-		i++;
+		num_ray++;
 	}
 }
