@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 16:51:01 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/04 22:40:59 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/05 10:36:23 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,6 @@ void	print_map(t_all *all)
 				all->player->dir = what_dir(all->map[point.y][point.x]);
 				all->map[point.y][point.x] = '0';
 				print_square(all->params, point.x, point.y, 0xE45F42);
-				// printf("%d - %d - %f\n", all->player->x, all->player->y, all->player->dir);
 			}
 			point.x++;
 		}

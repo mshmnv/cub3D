@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/25 18:43:43 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/04 22:42:36 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/05 10:33:22 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ float		vertic_length(t_player *ray, t_all *all)
 		x_offset *= -1;
 	}
 	ray->y = all->player->y + (ray->x - all->player->x) * tan(ray->dir);
-	while (ray->x > 0 && ray->y > 0 && ray->x < ft_strlen(all->map[(int)all->player->y / SCALE]) * SCALE &&
-	(int)(ray->y / SCALE) < height_len(all->map) && all->map[(int)(ray->y / SCALE)][(int)(ray->x / SCALE)] != '1')
+	while (ray->x >= 0 && ray->y >= 0 && ray->x < ft_strlen(all->map[(int)all->player->y / SCALE]) * SCALE &&
+	ray->y < height_len(all->map) * SCALE && all->map[(int)(ray->y / SCALE)][(int)(ray->x / SCALE)] != '1')
 	{
 		ray->x += x_offset;
 		ray->y += x_offset * tan(ray->dir);
@@ -96,9 +96,6 @@ void	cast_rays(t_all *all)
 	float		vertical;
 	int			i;
 
-	float		dist;
-	float		line_height;
-
 	end = all->player->dir + PI / 6;
 	start = all->player->dir - PI / 6;
 	ray_h = *all->player;
@@ -117,18 +114,14 @@ void	cast_rays(t_all *all)
 		if (horizontal < vertical && horizontal > 0)
 		{
 			print_line(all, horizontal, &ray_h);
-			dist = horizontal;
+			print_3d(all, horizontal, ray_h.x + 450);
 		}
 		else if (vertical < horizontal && vertical > 0)
 		{
 			print_line(all, vertical, &ray_v);
-			dist = vertical;
+			print_3d(all, vertical, ray_v.x + 450);
 		}
 		start += (PI / 3 ) / 500;
-
 		i++;
-		// line_height = 
-		// printf("%d\n", dist);
-		// break;
 	}
 }

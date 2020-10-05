@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 17:51:16 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/04 17:19:21 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/05 10:34:02 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,12 @@
 # include <fcntl.h>
 # include <math.h>
 
-# define SCALE		32
+# define SCALE		16
 # define KEY_A		0
 # define KEY_W		13
 # define KEY_D		2
 # define KEY_S		1
 # define KEY_ESC	53
-
 # define KEY_LEFT	123
 # define KEY_RIGHT	124
 
@@ -35,8 +34,8 @@
 
 typedef struct	s_player
 {
-	float			x;
-	float			y;
+	float		x;
+	float		y;
 	float		dir;
 }				t_player;
 
@@ -97,5 +96,6 @@ float			horizont_length(t_player *ray, t_all *all);
 void			print_line(t_all *all, int length, t_player *ray);
 int				height_len(char **map);
 
+void			print_3d(t_all *all, float dist, int ray_x);
 
 #endif
