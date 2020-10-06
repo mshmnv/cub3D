@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 16:51:01 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/05 19:18:28 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/06 20:18:48 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,25 @@
 
 void	mlx(char **map)
 {
+	t_texture	texture;
+	char		*texture_path;
 	t_params	params;
 	t_player	player;
 	t_all		all;
 
+	texture_path = "./texture/name.png";
 	params.mlx = mlx_init();
-	params.win = mlx_new_window(params.mlx, 1200, 800, "CUB3D");
-	params.img = mlx_new_image(params.mlx, 1200, 800);
+	texture.img = mlx_png_file_to_image(params.mlx, texture_path, texture.width, texture.height);
+	params.win = mlx_new_window(params.mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "CUB3D");
+	params.img = mlx_new_image(params.mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
 	params.addr = mlx_get_data_addr(params.img, &params.bits_per_pixel, &params.line_length, &params.endian);
 	all.params = &params;
 	all.player = &player;
 	all.map = map;
 	print_map(&all);
-	print_player(&all);
+	color_screen(&all);
+	cast_rays(&all);
+	print_map(&all);
 	mlx_loop_hook(params.mlx, display, &all);
 	mlx_loop(params.mlx);
 }
@@ -80,9 +86,10 @@ int		press_key(int key, t_all *all)
 	}
 	if (key == KEY_ESC)
 		exit(0);
+	color_screen(all);
 	print_map(all);
-	print_player(all);
 	cast_rays(all);
+	print_map(all);
 	return (0);
 }
 
@@ -106,11 +113,6 @@ void	print_square(t_params *params, int x, int y, int color)
 	}
 }
 
-void	print_player(t_all *all)
-{
-	pixel_put(all->params, all->player->x, all->player->y, 0xDAC890);
-}
-
 void	print_map(t_all *all)
 {
 	t_point	point;
@@ -123,8 +125,6 @@ void	print_map(t_all *all)
 		{
 			if (all->map[point.y][point.x] == '1')
 				print_square(all->params, point.x, point.y, 0x43723E);
-			if (all->map[point.y][point.x] == '0' || all->map[point.y][point.x] == '2')
-				print_square(all->params, point.x, point.y, 0xE45F42);
 			if (all->map[point.y][point.x] == 'N' || all->map[point.y][point.x] == 'S' ||
 			all->map[point.y][point.x] == 'W' || all->map[point.y][point.x] == 'E')
 			{
@@ -143,7 +143,7 @@ void	print_map(t_all *all)
 int		display(t_all *all)
 {
 	mlx_hook(all->params->win, 2, 1L << 0, press_key, all);
-	mlx_put_image_to_window(all->params->mlx, all->params->win, all->params->img, 10, 10);
+	mlx_put_image_to_window(all->params->mlx, all->params->win, all->params->img, 0, 0);
 	return (0);
 }
 

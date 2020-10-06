@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/25 18:43:43 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/05 19:21:03 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/06 17:45:56 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	print_line(t_all *all, int length, float dir)
 	i = 0;
 	while (i < length)
 	{
-		pixel_put(all->params, x + i * cos(dir), y + i * sin(dir), 0xDAC890);
+		pixel_put(all->params, x + i * cos(dir), y + i * sin(dir), 0x5FA975);
 		i++;
 	}
 }
@@ -86,34 +86,6 @@ float		horizont_length(t_player *ray, t_all *all)
 	return (horizontal);
 }
 
-
-void	color_screen(t_all *all)
-{
-	int	x;
-	int	y;
-
-	x = 500;
-	while (x < 1000)
-	{
-		y = 0;
-		while (y < 500)
-		{
-			pixel_put(all->params, x, y, 0xE45F42);
-			y++;
-		}
-		x++;
-	}
-}
-
-float	fix_ray(float ray)
-{
-	if (ray > 2 * PI)
-		ray -= 2 * PI;
-	else if (ray < 0)
-		ray += 2 * PI;
-	return (ray);
-}
-
 void	cast_rays(t_all *all)
 {
 	t_player	ray_h;
@@ -130,8 +102,7 @@ void	cast_rays(t_all *all)
 	ray_h = *all->player;
 	ray_v = *all->player;
 	num_ray = 0;
-	color_screen(all);
-	while (num_ray < 500)
+	while (num_ray < SCREEN_WIDTH)
 	{
 		start = fix_ray(start);
 		ray_h.dir = start;
@@ -154,7 +125,7 @@ void	cast_rays(t_all *all)
 			vertical = vertical * cos(ang_dist);
 			print_3d(all, vertical, num_ray);
 		}
-		start += (PI / 3 ) / 500;
+		start += (PI / 3 ) / SCREEN_WIDTH;
 		num_ray++;
 	}
 }
