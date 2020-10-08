@@ -1,6 +1,6 @@
 .PHONY: all clean fclean re norme
 
-SRC = mlx.c read_map.c rays.c creating_3d.c
+SRC = mlx.c read_map.c rays.c print_3d.c
 
 NAME = cub3D
 

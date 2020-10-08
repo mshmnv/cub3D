@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/25 18:43:43 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/06 17:45:56 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/08 19:09:17 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ float		vertic_length(t_player *ray, t_all *all)
 	int		x_offset;
 
 	x_offset = SCALE;
-	if ((ray->dir < (PI / 2)) || (ray->dir > (3 * PI / 2)))		// right
+	if ((ray->dir < (PI / 2)) || (ray->dir > (3 * PI / 2)))
 		ray->x = (int)(all->player->x / SCALE) * SCALE + SCALE;
-	if ((ray->dir > (PI / 2)) && (ray->dir < (3 * PI / 2)))		// left
+	if ((ray->dir > (PI / 2)) && (ray->dir < (3 * PI / 2)))
 	{
 		ray->x = (int)(all->player->x / SCALE) * SCALE - 0.001;
 		x_offset *= -1;
@@ -115,7 +115,7 @@ void	cast_rays(t_all *all)
 			ang_dist = all->player->dir - ray_h.dir;
 			ang_dist = fix_ray(ang_dist);
 			horizontal = horizontal * cos(ang_dist);
-			print_3d(all, horizontal, num_ray);
+			print_3d(all, horizontal, num_ray, &ray_h);
 		}
 		else if (vertical < horizontal && vertical > 0)
 		{
@@ -123,7 +123,7 @@ void	cast_rays(t_all *all)
 			ang_dist = all->player->dir - ray_v.dir;
 			ang_dist = fix_ray(ang_dist);
 			vertical = vertical * cos(ang_dist);
-			print_3d(all, vertical, num_ray);
+			print_3d(all, vertical, num_ray, &ray_v);
 		}
 		start += (PI / 3 ) / SCREEN_WIDTH;
 		num_ray++;

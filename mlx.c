@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 16:51:01 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/06 20:18:48 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/08 19:09:42 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,23 @@ void	mlx(char **map)
 {
 	t_texture	texture;
 	char		*texture_path;
+
 	t_params	params;
 	t_player	player;
 	t_all		all;
 
-	texture_path = "./texture/name.png";
 	params.mlx = mlx_init();
-	texture.img = mlx_png_file_to_image(params.mlx, texture_path, texture.width, texture.height);
+
+	texture_path = "./texture/black_marble.xpm";
+	texture.img = mlx_xpm_file_to_image(params.mlx, texture_path, &texture.width, &texture.height);
+	texture.addr = mlx_get_data_addr(texture.img, &texture.bits_per_pixel, &texture.line_length, &texture.endian);
+
 	params.win = mlx_new_window(params.mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "CUB3D");
 	params.img = mlx_new_image(params.mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
 	params.addr = mlx_get_data_addr(params.img, &params.bits_per_pixel, &params.line_length, &params.endian);
 	all.params = &params;
 	all.player = &player;
+	all.texture = &texture;
 	all.map = map;
 	print_map(&all);
 	color_screen(&all);
