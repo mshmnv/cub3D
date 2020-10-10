@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/25 18:43:43 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/08 19:09:17 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/10 20:26:22 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	print_line(t_all *all, int length, float dir)
 	x = all->player->x;
 	y = all->player->y;
 	i = 0;
-	while (i < length)
+	while (i <= length)
 	{
 		pixel_put(all->params, x + i * cos(dir), y + i * sin(dir), 0x5FA975);
 		i++;
@@ -96,6 +96,7 @@ void	cast_rays(t_all *all)
 	float		vertical;
 	int			num_ray;
 	float		ang_dist;
+	float		text_x;
 
 	end = all->player->dir + PI / 6;
 	start = all->player->dir - PI / 6;
@@ -109,21 +110,27 @@ void	cast_rays(t_all *all)
 		ray_v.dir = start;
 		horizontal = horizont_length(&ray_h, all);
 		vertical = vertic_length(&ray_v, all);
-		if (horizontal < vertical && horizontal > 0)
+		if (horizontal < vertical)
 		{
+			//
+			text_x = (all->texture->width - 1) * ray_h.x / (SCALE - 1);
+			//
 			print_line(all, horizontal, ray_h.dir);
 			ang_dist = all->player->dir - ray_h.dir;
 			ang_dist = fix_ray(ang_dist);
 			horizontal = horizontal * cos(ang_dist);
-			print_3d(all, horizontal, num_ray, &ray_h);
+			print_3d(all, horizontal, num_ray, text_x);
 		}
-		else if (vertical < horizontal && vertical > 0)
+		else if (vertical < horizontal)
 		{
+			//
+			text_x = (all->texture->width - 1) * ray_v.y / (SCALE - 1);
+			//
 			print_line(all, vertical, ray_v.dir);
 			ang_dist = all->player->dir - ray_v.dir;
 			ang_dist = fix_ray(ang_dist);
 			vertical = vertical * cos(ang_dist);
-			print_3d(all, vertical, num_ray, &ray_v);
+			print_3d(all, vertical, num_ray, text_x);
 		}
 		start += (PI / 3 ) / SCREEN_WIDTH;
 		num_ray++;

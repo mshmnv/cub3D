@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 16:51:01 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/08 19:09:42 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/10 18:31:23 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	mlx(char **map)
 	params.mlx = mlx_init();
 
 	texture_path = "./texture/black_marble.xpm";
+	// texture_path = "./texture/wall.xpm";    // bus error
 	texture.img = mlx_xpm_file_to_image(params.mlx, texture_path, &texture.width, &texture.height);
 	texture.addr = mlx_get_data_addr(texture.img, &texture.bits_per_pixel, &texture.line_length, &texture.endian);
 
@@ -46,6 +47,7 @@ void	mlx(char **map)
 	cast_rays(&all);
 	print_map(&all);
 	mlx_loop_hook(params.mlx, display, &all);
+	mlx_hook(all.params->win, 2, 1L << 0, press_key, &all);
 	mlx_loop(params.mlx);
 }
 
@@ -91,10 +93,10 @@ int		press_key(int key, t_all *all)
 	}
 	if (key == KEY_ESC)
 		exit(0);
-	color_screen(all);
-	print_map(all);
-	cast_rays(all);
-	print_map(all);
+	// color_screen(all);
+	// print_map(all);
+	// cast_rays(all);
+	// print_map(all);
 	return (0);
 }
 
@@ -147,8 +149,12 @@ void	print_map(t_all *all)
 
 int		display(t_all *all)
 {
-	mlx_hook(all->params->win, 2, 1L << 0, press_key, all);
+	color_screen(all);
+	print_map(all);
+	cast_rays(all);
+	print_map(all);
 	mlx_put_image_to_window(all->params->mlx, all->params->win, all->params->img, 0, 0);
+	mlx_do_sync(all->params->mlx);
 	return (0);
 }
 

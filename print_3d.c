@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/05 09:29:00 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/08 20:10:50 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/10 19:57:29 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	color_screen(t_all *all)
 		y = 0;
 		while (y < SCREEN_HEIGHT)
 		{
-			pixel_put(all->params, x, y, 0xE45F42);
+			pixel_put(all->params, x, y, 0xDAC890);
 			y++;
 		}
 		x++;
@@ -39,30 +39,27 @@ float	fix_ray(float ray)
 	return (ray);
 }
 
-void	print_3d(t_all *all, float dist, int num_ray, t_player *ray)
+void	print_3d(t_all *all, float dist, int num_ray, int text_x)
 {
 	int		color;
 	int		line_height;
-	int		line_offset;
+	int		line_start;
 	int		line_end;
 	float	y_step;
-	int		text_x;
 	float	text_y;
 
 	text_y = 0;
-	text_x = 0;
-	text_x = ((float)all->texture->width / (float)SCREEN_WIDTH) * num_ray;    //нет - считать с помощью луча
-	y_step = (float)all->texture->height / (float)SCREEN_HEIGHT;
 	line_height = (SCALE * SCREEN_HEIGHT) / dist;
+	y_step = (float)all->texture->height / (float)line_height;
 	if (line_height > SCREEN_HEIGHT)
-		line_height = SCREEN_HEIGHT;
-	line_offset = SCREEN_HEIGHT / 2 - line_height / 2;
-	line_end = line_offset + line_height;
-	while (line_offset < line_end)
+		line_height = SCREEN_HEIGHT - 1;
+	line_start = SCREEN_HEIGHT / 2 - line_height / 2;
+	line_end = line_start + line_height;
+	while (line_start < line_end)
 	{
 		color = *(all->texture->addr + (((int)text_y * all->texture->line_length) + (text_x * (all->texture->bits_per_pixel / 8))));
-		pixel_put(all->params, num_ray, line_offset, color);
-		line_offset++;
+		pixel_put(all->params, num_ray, line_start, color);
+		line_start++;
 		text_y += y_step;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 17:51:16 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/08 19:24:52 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/10 19:46:14 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ void			print_line(t_all *all, int length, float dir);
 int				height_len(char **map);
 
 //	print_3d
-void			print_3d(t_all *all, float dist, int num_ray, t_player *ray);
+void			print_3d(t_all *all, float dist, int num_ray, int text_x);
 float			fix_ray(float ray);
 void			color_screen(t_all *all);
 #endif
