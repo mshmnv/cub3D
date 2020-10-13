@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/25 18:43:43 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/10 22:22:06 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/13 18:30:06 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ void	cast_rays(t_all *all)
 		}
 		else if (vertical < horizontal)
 		{
-			text_x = (all->texture->width - 1) * ray_v.y / (SCALE - 1);
+			text_x = (all->texture->width - 1) * ray_v.y / (SCALE  - 1);
 			print_line(all, vertical, ray_v.dir);
 			ang_dist = all->player->dir - ray_v.dir;
 			ang_dist = fix_ray(ang_dist);

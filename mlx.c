@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 16:51:01 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/10 22:46:43 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/13 17:09:13 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,9 @@ void	mlx(char **map)
 
 	params.mlx = mlx_init();
 
-	// texture_path = "./texture/black_marble.xpm";
-	texture_path = "./texture/purplestone.xpm";    // bus error
+	texture_path = "./texture/black_marble.xpm";
+	// texture_path = "./texture/purplestone.xpm";    // bus error
+	// texture_path = "./texture/wall.xpm";				//bus error
 	texture.img = mlx_xpm_file_to_image(params.mlx, texture_path, &texture.width, &texture.height);
 	texture.addr = mlx_get_data_addr(texture.img, &texture.bits_per_pixel, &texture.line_length, &texture.endian);
 
@@ -93,10 +94,6 @@ int		press_key(int key, t_all *all)
 	}
 	if (key == KEY_ESC)
 		exit(0);
-	// color_screen(all);
-	// print_map(all);
-	// cast_rays(all);
-	// print_map(all);
 	return (0);
 }
 
