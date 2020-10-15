@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 16:51:01 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/13 17:09:13 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/15 21:31:10 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,10 @@ void	mlx(char **map)
 
 	params.mlx = mlx_init();
 
-	texture_path = "./texture/black_marble.xpm";
-	// texture_path = "./texture/purplestone.xpm";    // bus error
-	// texture_path = "./texture/wall.xpm";				//bus error
+	// texture_path = "./texture/black_marble.xpm";
+	texture_path = "./texture/white_marble.xpm";
+	// texture_path = "./texture/purplestone.xpm";
+	// texture_path = "./texture/wall.xpm";
 	texture.img = mlx_xpm_file_to_image(params.mlx, texture_path, &texture.width, &texture.height);
 	texture.addr = mlx_get_data_addr(texture.img, &texture.bits_per_pixel, &texture.line_length, &texture.endian);
 
@@ -101,10 +102,10 @@ void	print_square(t_params *params, int x, int y, int color)
 {
 	t_point	end;
 
-	end.y = (y + 1) * SCALE;
-	end.x = (x + 1) * SCALE;
-	x *= SCALE;
-	y *= SCALE;
+	end.y = (y + 1) * 16;
+	end.x = (x + 1) * 16;
+	x *= 16;
+	y *= 16;
 	while (y < end.y)
     {
 		while (x < end.x)
@@ -112,7 +113,7 @@ void	print_square(t_params *params, int x, int y, int color)
 			pixel_put(params, x, y, color);
 			x++;
 		}
-		x -= SCALE;
+		x -= 16;
 		y++;
 	}
 }

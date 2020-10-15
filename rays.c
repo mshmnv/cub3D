@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/25 18:43:43 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/13 18:30:06 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/15 21:30:01 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ void	print_line(t_all *all, int length, float dir)
 	float	y;
 	int	i;
 
-	x = all->player->x;
-	y = all->player->y;
+	x = all->player->x * 16 / SCALE;
+	y = all->player->y * 16 / SCALE;
 	i = 0;
-	while (i <= length)
+	while (i <= (length * 16 / SCALE))
 	{
-		pixel_put(all->params, x + i * cos(dir), y + i * sin(dir), 0x5FA975);
+		pixel_put(all->params, x + i * cos(dir), y + i * sin(dir), 0xE45F42);
 		i++;
 	}
 }
@@ -110,18 +110,36 @@ void	cast_rays(t_all *all)
 		ray_v.dir = start;
 		horizontal = horizont_length(&ray_h, all);
 		vertical = vertic_length(&ray_v, all);
-		if (horizontal < vertical)
+		if (horizontal < vertical && (ray_h.dir >= PI && ray_h.dir < 2 * PI))
 		{
-			text_x = (all->texture->width - 1) * ray_h.x / (SCALE - 1);
+			text_x = (all->texture->width * ((int)ray_h.x % SCALE)) / SCALE;
 			print_line(all, horizontal, ray_h.dir);
 			ang_dist = all->player->dir - ray_h.dir;
 			ang_dist = fix_ray(ang_dist);
 			horizontal = horizontal * cos(ang_dist);
 			print_3d(all, horizontal, num_ray, text_x);
 		}
-		else if (vertical < horizontal)
+		else if (horizontal < vertical && (ray_h.dir >= 0 && ray_h.dir < PI))
 		{
-			text_x = (all->texture->width - 1) * ray_v.y / (SCALE  - 1);
+			text_x = (all->texture->width * (SCALE - (int)ray_h.x % SCALE)) / SCALE - 0.1;
+			print_line(all, horizontal, ray_h.dir);
+			ang_dist = all->player->dir - ray_h.dir;
+			ang_dist = fix_ray(ang_dist);
+			horizontal = horizontal * cos(ang_dist);
+			print_3d(all, horizontal, num_ray, text_x);
+		}
+		else if (vertical < horizontal && (ray_v.dir > 3 * PI / 2 || ray_v.dir < PI / 2))
+		{
+			text_x =  (all->texture->width * ((int)ray_v.y % SCALE)) / SCALE;
+			print_line(all, vertical, ray_v.dir);
+			ang_dist = all->player->dir - ray_v.dir;
+			ang_dist = fix_ray(ang_dist);
+			vertical = vertical * cos(ang_dist);
+			print_3d(all, vertical, num_ray, text_x);
+		}
+		else
+		{
+			text_x = (all->texture->width * (SCALE - (int)ray_v.y % SCALE)) / SCALE - 0.1;
 			print_line(all, vertical, ray_v.dir);
 			ang_dist = all->player->dir - ray_v.dir;
 			ang_dist = fix_ray(ang_dist);

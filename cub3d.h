@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 17:51:16 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/10 19:46:14 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/15 21:29:05 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <fcntl.h>
 # include <math.h>
 
-# define SCALE		16
+# define SCALE		200
 # define KEY_A		0
 # define KEY_W		13
 # define KEY_D		2
