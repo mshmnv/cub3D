@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/25 18:43:43 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/15 21:30:01 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/19 17:29:33 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,59 +94,59 @@ void	cast_rays(t_all *all)
 	float		end;
 	float		horizontal;
 	float		vertical;
+	float		dist;
 	int			num_ray;
 	float		ang_dist;
 	float		text_x;
+	t_texture	*texture;
+	
 
 	end = all->player->dir + PI / 6;
 	start = all->player->dir - PI / 6;
 	ray_h = *all->player;
 	ray_v = *all->player;
 	num_ray = 0;
-	while (num_ray < SCREEN_WIDTH)
+	while (num_ray < all->map_data->screen_width)
 	{
 		start = fix_ray(start);
 		ray_h.dir = start;
 		ray_v.dir = start;
 		horizontal = horizont_length(&ray_h, all);
 		vertical = vertic_length(&ray_v, all);
+		text_x = (all->texture_we->width * (SCALE - (int)ray_v.y % SCALE)) / SCALE - 0.1;
+		ang_dist = all->player->dir - ray_v.dir;
+		dist = vertical;
+		texture = all->texture_we;
 		if (horizontal < vertical && (ray_h.dir >= PI && ray_h.dir < 2 * PI))
 		{
-			text_x = (all->texture->width * ((int)ray_h.x % SCALE)) / SCALE;
+			text_x = (all->texture_no->width * ((int)ray_h.x % SCALE)) / SCALE;
 			print_line(all, horizontal, ray_h.dir);
 			ang_dist = all->player->dir - ray_h.dir;
-			ang_dist = fix_ray(ang_dist);
-			horizontal = horizontal * cos(ang_dist);
-			print_3d(all, horizontal, num_ray, text_x);
+			dist = horizontal;
+			texture = all->texture_no;
 		}
 		else if (horizontal < vertical && (ray_h.dir >= 0 && ray_h.dir < PI))
 		{
-			text_x = (all->texture->width * (SCALE - (int)ray_h.x % SCALE)) / SCALE - 0.1;
+			text_x = (all->texture_so->width * (SCALE - (int)ray_h.x % SCALE)) / SCALE - 0.1;
 			print_line(all, horizontal, ray_h.dir);
 			ang_dist = all->player->dir - ray_h.dir;
-			ang_dist = fix_ray(ang_dist);
-			horizontal = horizontal * cos(ang_dist);
-			print_3d(all, horizontal, num_ray, text_x);
+			dist = horizontal;
+			texture = all->texture_so;
 		}
 		else if (vertical < horizontal && (ray_v.dir > 3 * PI / 2 || ray_v.dir < PI / 2))
 		{
-			text_x =  (all->texture->width * ((int)ray_v.y % SCALE)) / SCALE;
+			text_x =  (all->texture_ea->width * ((int)ray_v.y % SCALE)) / SCALE;
 			print_line(all, vertical, ray_v.dir);
 			ang_dist = all->player->dir - ray_v.dir;
-			ang_dist = fix_ray(ang_dist);
-			vertical = vertical * cos(ang_dist);
-			print_3d(all, vertical, num_ray, text_x);
+			dist = vertical;
+			texture = all->texture_ea;
 		}
 		else
-		{
-			text_x = (all->texture->width * (SCALE - (int)ray_v.y % SCALE)) / SCALE - 0.1;
 			print_line(all, vertical, ray_v.dir);
-			ang_dist = all->player->dir - ray_v.dir;
-			ang_dist = fix_ray(ang_dist);
-			vertical = vertical * cos(ang_dist);
-			print_3d(all, vertical, num_ray, text_x);
-		}
-		start += (PI / 3 ) / SCREEN_WIDTH;
+		ang_dist = fix_ray(ang_dist);
+		dist = dist * cos(ang_dist);
+		print_3d(all, dist, num_ray, text_x, texture);
+		start += (PI / 3 ) / all->map_data->screen_width;
 		num_ray++;
 	}
 }

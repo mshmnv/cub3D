@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 17:53:18 by lbagg             #+#    #+#             */
-/*   Updated: 2020/08/21 10:41:28 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/19 14:27:22 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ t_map	get_map_info(char **map)
 	// printf("'%d''%d'\n", map_data.resolution[0], map_data.resolution[1]);
 	// printf("'%s'\n'%s'\n'%s'\n'%s'\n", map_data.north, map_data.south, map_data.west, map_data.east);
 	// printf("'%s'\n", map_data.sprite);
-	// printf("'%d''%d''%d'\n", map_data.floor[0], map_data.floor[1], map_data.floor[2]);
-	// printf("'%d''%d''%d'\n", map_data.ceilling[0], map_data.ceilling[1], map_data.ceilling[2]);
+	// printf("'%d'\n", map_data.floor_color);
+	// printf("'%d'\n", map_data.ceiling_color);
 	return (map_data);
 }
 
@@ -72,22 +72,20 @@ t_map	into_struct(char *map, char *symb)
 	if (ft_strncmp(symb, "F", 2) == 0)
 	{
 		el = ft_split(map, ',');
-		map_data.floor[0] = ft_atoi(el[0]);
-		map_data.floor[1] = ft_atoi(el[1]);
-		map_data.floor[2] = ft_atoi(el[2]);
+		map_data.floor_color = (ft_atoi(el[0]) << 16) + (ft_atoi(el[1]) << 8) + ft_atoi(el[2]);
 		free(el[2]);
 		free(el[1]);
 		free(el[0]);
+		free(el);
 	}
 	else if (ft_strncmp(symb, "C", 2) == 0)
 	{
 		el = ft_split(map, ',');
-		map_data.ceilling[0] = ft_atoi(el[0]);
-		map_data.ceilling[1] = ft_atoi(el[1]);
-		map_data.ceilling[2] = ft_atoi(el[2]);
+		map_data.ceiling_color = (ft_atoi(el[0]) << 16) + (ft_atoi(el[1]) << 8) + ft_atoi(el[2]);
 		free(el[2]);
 		free(el[1]);
 		free(el[0]);
+		free(el);
 	}
 	return (map_data);
 }
@@ -99,8 +97,8 @@ int	into_struct_2(char *map, char *symb, t_map *map_data)
 	if (ft_strncmp(symb, "R", 1) == 0)
 	{
 		el = ft_split(map, ' ');
-		(*map_data).resolution[0] = ft_atoi(el[0]);
-		(*map_data).resolution[1] = ft_atoi(el[1]);
+		(*map_data).screen_height = ft_atoi(el[0]);
+		(*map_data).screen_width = ft_atoi(el[1]);
 		free(el[1]);
 		free(el[0]);
 	}

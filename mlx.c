@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 16:51:01 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/15 21:31:10 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/19 18:21:55 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,35 +19,67 @@
 ** black	0x000000
 */
 
-void	mlx(char **map)
+void	texture_structs(t_params *params, t_map *map_data, t_texture *texture, char type)
 {
-	t_texture	texture;
-	char		*texture_path;
+	if (type == 'n')
+	{
+		texture->img = mlx_xpm_file_to_image(params->mlx, map_data->north, &texture->width, &texture->height);
+		texture->addr = mlx_get_data_addr(texture->img, &texture->bits_per_pixel, &texture->line_length, &texture->endian);
+	}
+	if (type == 's')
+	{
+		texture->img = mlx_xpm_file_to_image(params->mlx, map_data->south, &texture->width, &texture->height);
+		texture->addr = mlx_get_data_addr(texture->img, &texture->bits_per_pixel, &texture->line_length, &texture->endian);
+	}
+	if (type == 'w')
+	{
+		texture->img = mlx_xpm_file_to_image(params->mlx, map_data->west, &texture->width, &texture->height);
+		texture->addr = mlx_get_data_addr(texture->img, &texture->bits_per_pixel, &texture->line_length, &texture->endian);
+	}
+	if (type == 'e')
+	{
+		texture->img = mlx_xpm_file_to_image(params->mlx, map_data->east, &texture->width, &texture->height);
+		texture->addr = mlx_get_data_addr(texture->img, &texture->bits_per_pixel, &texture->line_length, &texture->endian);
+	}
+}
 
+void	mlx(char **map, t_map	*map_data)
+{
+	t_texture	texture_no;
+	t_texture	texture_so;
+	t_texture	texture_we;
+	t_texture	texture_ea;
+	t_texture	sprite;
 	t_params	params;
 	t_player	player;
 	t_all		all;
 
 	params.mlx = mlx_init();
-
-	// texture_path = "./texture/black_marble.xpm";
-	texture_path = "./texture/white_marble.xpm";
-	// texture_path = "./texture/purplestone.xpm";
-	// texture_path = "./texture/wall.xpm";
-	texture.img = mlx_xpm_file_to_image(params.mlx, texture_path, &texture.width, &texture.height);
-	texture.addr = mlx_get_data_addr(texture.img, &texture.bits_per_pixel, &texture.line_length, &texture.endian);
-
-	params.win = mlx_new_window(params.mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "CUB3D");
-	params.img = mlx_new_image(params.mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
+	texture_structs(&params, map_data, &texture_no, 'n');
+	texture_structs(&params, map_data, &texture_so, 's');
+	texture_structs(&params, map_data, &texture_we, 'w');
+	texture_structs(&params, map_data, &texture_ea, 'e');
+	sprite.img = mlx_xpm_file_to_image(params.mlx, map_data->sprite, &sprite.width, &sprite.height);
+	sprite.addr = mlx_get_data_addr(sprite.img, &sprite.bits_per_pixel, &sprite.line_length, &sprite.endian);
+	params.win = mlx_new_window(params.mlx, map_data->screen_width, map_data->screen_height, "CUB3D");
+	params.img = mlx_new_image(params.mlx, map_data->screen_width, map_data->screen_height);
 	params.addr = mlx_get_data_addr(params.img, &params.bits_per_pixel, &params.line_length, &params.endian);
 	all.params = &params;
 	all.player = &player;
-	all.texture = &texture;
+	all.texture_no = &texture_no;
+	all.texture_so = &texture_so;
+	all.texture_we = &texture_we;
+	all.texture_ea = &texture_ea;
+	all.sprite = &sprite;
 	all.map = map;
+	all.map_data = map_data;
 	print_map(&all);
 	color_screen(&all);
 	cast_rays(&all);
 	print_map(&all);
+	
+	print_sprites(&all);
+	
 	mlx_loop_hook(params.mlx, display, &all);
 	mlx_hook(all.params->win, 2, 1L << 0, press_key, &all);
 	mlx_loop(params.mlx);
@@ -130,6 +162,8 @@ void	print_map(t_all *all)
 		{
 			if (all->map[point.y][point.x] == '1')
 				print_square(all->params, point.x, point.y, 0x43723E);
+			if (all->map[point.y][point.x] == '2')
+				print_square(all->params, point.x, point.y, 0x000000);
 			if (all->map[point.y][point.x] == 'N' || all->map[point.y][point.x] == 'S' ||
 			all->map[point.y][point.x] == 'W' || all->map[point.y][point.x] == 'E')
 			{
@@ -151,6 +185,9 @@ int		display(t_all *all)
 	print_map(all);
 	cast_rays(all);
 	print_map(all);
+
+	print_sprites(all);
+	
 	mlx_put_image_to_window(all->params->mlx, all->params->win, all->params->img, 0, 0);
 	mlx_do_sync(all->params->mlx);
 	return (0);
