@@ -6,27 +6,18 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/05 09:29:00 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/19 19:10:24 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/19 23:01:09 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	print_sprites(t_all *all)
+/* void	print_sprites(t_all *all)
 {
 	float	x;
 	float	y;
-	
 	float	sprite_dir;
 	float	sprite_dist;
-
-	float	height;
-	float	y_step;
-	float	y_start;
-	float	y_end;
-	float	x_start;
-	float	x_mid;
-	float	x_end;
 
 
 	y = 0;
@@ -39,20 +30,17 @@ void	print_sprites(t_all *all)
 			{
 				sprite_dir = atan2(y * SCALE - all->player->y, x * SCALE - all->player->x) + PI / 6;
 				sprite_dir = fix_ray(sprite_dir);
-				// printf("%f\n", sprite_dir - all->player->dir);
 				if ((sprite_dir - all->player->dir) > 0 && (sprite_dir - all->player->dir) < PI / 3)
 				{
-					pixel_put(all->params, x * 16, y * 16, 0xffffff);
 					sprite_dist = sqrt(pow(all->player->x - x * SCALE - SCALE / 2, 2) + pow(all->player->y - y * SCALE - SCALE / 2, 2));
-					x_mid = all->sprite->width / (PI / 6) * sprite_dir - all->player->dir;
-					print_3d(all, sprite_dist, x * SCALE - SCALE, all->sprite->height / 2, all->sprite);
+					
 				}
 			}
 			x++;
 		}
 		y++;
 	}
-}
+} */
 
 void	color_screen(t_all *all)
 {

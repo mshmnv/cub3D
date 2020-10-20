@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 16:51:01 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/19 18:21:55 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/20 13:44:44 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,46 +19,33 @@
 ** black	0x000000
 */
 
-void	texture_structs(t_params *params, t_map *map_data, t_texture *texture, char type)
+void	texture_structs(t_params *params, t_map *map_data, t_texture *texture)
 {
-	if (type == 'n')
-	{
-		texture->img = mlx_xpm_file_to_image(params->mlx, map_data->north, &texture->width, &texture->height);
-		texture->addr = mlx_get_data_addr(texture->img, &texture->bits_per_pixel, &texture->line_length, &texture->endian);
-	}
-	if (type == 's')
-	{
-		texture->img = mlx_xpm_file_to_image(params->mlx, map_data->south, &texture->width, &texture->height);
-		texture->addr = mlx_get_data_addr(texture->img, &texture->bits_per_pixel, &texture->line_length, &texture->endian);
-	}
-	if (type == 'w')
-	{
-		texture->img = mlx_xpm_file_to_image(params->mlx, map_data->west, &texture->width, &texture->height);
-		texture->addr = mlx_get_data_addr(texture->img, &texture->bits_per_pixel, &texture->line_length, &texture->endian);
-	}
-	if (type == 'e')
-	{
-		texture->img = mlx_xpm_file_to_image(params->mlx, map_data->east, &texture->width, &texture->height);
-		texture->addr = mlx_get_data_addr(texture->img, &texture->bits_per_pixel, &texture->line_length, &texture->endian);
-	}
+	if (!(texture[0].img = mlx_xpm_file_to_image(params->mlx, map_data->north, &texture[0].width, &texture[0].height)))
+			error('t');
+	texture[0].addr = mlx_get_data_addr(texture[0].img, &texture[0].bits_per_pixel, &texture[0].line_length, &texture[0].endian);
+	if (!(texture[1].img = mlx_xpm_file_to_image(params->mlx, map_data->south, &texture[1].width, &texture[1].height)))
+			error('t');
+	texture[1].addr = mlx_get_data_addr(texture[1].img, &texture[1].bits_per_pixel, &texture[1].line_length, &texture[1].endian);
+	if (!(texture[2].img = mlx_xpm_file_to_image(params->mlx, map_data->west, &texture[2].width, &texture[2].height)))
+			error('t');
+	texture[2].addr = mlx_get_data_addr(texture[2].img, &texture[2].bits_per_pixel, &texture[2].line_length, &texture[2].endian);
+	if (!(texture[3].img = mlx_xpm_file_to_image(params->mlx, map_data->east, &texture[3].width, &texture[3].height)))
+			error('t');
+	texture[3].addr = mlx_get_data_addr(texture[3].img, &texture[3].bits_per_pixel, &texture[3].line_length, &texture[3].endian);
 }
 
 void	mlx(char **map, t_map	*map_data)
 {
-	t_texture	texture_no;
-	t_texture	texture_so;
-	t_texture	texture_we;
-	t_texture	texture_ea;
+	t_texture	texture[4];
 	t_texture	sprite;
-	t_params	params;
 	t_player	player;
 	t_all		all;
+	t_params	params;
 
 	params.mlx = mlx_init();
-	texture_structs(&params, map_data, &texture_no, 'n');
-	texture_structs(&params, map_data, &texture_so, 's');
-	texture_structs(&params, map_data, &texture_we, 'w');
-	texture_structs(&params, map_data, &texture_ea, 'e');
+	int i = 0;
+	texture_structs(&params, map_data, texture);
 	sprite.img = mlx_xpm_file_to_image(params.mlx, map_data->sprite, &sprite.width, &sprite.height);
 	sprite.addr = mlx_get_data_addr(sprite.img, &sprite.bits_per_pixel, &sprite.line_length, &sprite.endian);
 	params.win = mlx_new_window(params.mlx, map_data->screen_width, map_data->screen_height, "CUB3D");
@@ -66,10 +53,10 @@ void	mlx(char **map, t_map	*map_data)
 	params.addr = mlx_get_data_addr(params.img, &params.bits_per_pixel, &params.line_length, &params.endian);
 	all.params = &params;
 	all.player = &player;
-	all.texture_no = &texture_no;
-	all.texture_so = &texture_so;
-	all.texture_we = &texture_we;
-	all.texture_ea = &texture_ea;
+	all.texture_no = &texture[0];
+	all.texture_so = &texture[1];
+	all.texture_we = &texture[2];
+	all.texture_ea = &texture[3];
 	all.sprite = &sprite;
 	all.map = map;
 	all.map_data = map_data;
@@ -78,7 +65,7 @@ void	mlx(char **map, t_map	*map_data)
 	cast_rays(&all);
 	print_map(&all);
 	
-	print_sprites(&all);
+	// print_sprites(&all);
 	
 	mlx_loop_hook(params.mlx, display, &all);
 	mlx_hook(all.params->win, 2, 1L << 0, press_key, &all);
@@ -116,15 +103,9 @@ int		press_key(int key, t_all *all)
 		all->player->y += sin(all->player->dir) * 4;
 	}
 	if (key == KEY_LEFT)
-	{
-		all->player->dir -= 0.1;
-		all->player->dir = fix_ray(all->player->dir);
-	}
+		all->player->dir = fix_ray(all->player->dir - 0.1);
 	if (key == KEY_RIGHT)
-	{
-		all->player->dir += 0.1;
-		all->player->dir = fix_ray(all->player->dir);
-	}
+		all->player->dir = fix_ray(all->player->dir + 0.1);
 	if (key == KEY_ESC)
 		exit(0);
 	return (0);
@@ -162,9 +143,9 @@ void	print_map(t_all *all)
 		{
 			if (all->map[point.y][point.x] == '1')
 				print_square(all->params, point.x, point.y, 0x43723E);
-			if (all->map[point.y][point.x] == '2')
+			else if (all->map[point.y][point.x] == '2')
 				print_square(all->params, point.x, point.y, 0x000000);
-			if (all->map[point.y][point.x] == 'N' || all->map[point.y][point.x] == 'S' ||
+			else if (all->map[point.y][point.x] == 'N' || all->map[point.y][point.x] == 'S' ||
 			all->map[point.y][point.x] == 'W' || all->map[point.y][point.x] == 'E')
 			{
 				all->player->x = point.x * SCALE + SCALE / 2;
@@ -186,7 +167,7 @@ int		display(t_all *all)
 	cast_rays(all);
 	print_map(all);
 
-	print_sprites(all);
+	// print_sprites(all);
 	
 	mlx_put_image_to_window(all->params->mlx, all->params->win, all->params->img, 0, 0);
 	mlx_do_sync(all->params->mlx);

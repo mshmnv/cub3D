@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 17:53:18 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/19 14:27:22 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/20 15:36:47 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,12 @@ char	**read_map(char *line, t_list **head)
 
 	i = 0;
 	tmp = *head;
-	map = ft_calloc(ft_lstsize(tmp) + 1, sizeof(char*));
+	if (!(map = ft_calloc(ft_lstsize(tmp) + 1, sizeof(char*))))
+		error('m');
 	while (tmp)
 	{
-		map[i] = ft_strdup(tmp->content);
+		if (!(map[i] = ft_strdup(tmp->content)))
+			error('m');
 		tmp = tmp->next;
 		i++;
 	}
@@ -97,28 +99,24 @@ int	into_struct_2(char *map, char *symb, t_map *map_data)
 	if (ft_strncmp(symb, "R", 1) == 0)
 	{
 		el = ft_split(map, ' ');
-		(*map_data).screen_height = ft_atoi(el[0]);
-		(*map_data).screen_width = ft_atoi(el[1]);
+		if (((*map_data).screen_height = ft_atoi(el[0])) <= 0)   //// ? > screen resolution
+			error('r');
+		if (((*map_data).screen_width = ft_atoi(el[1])) <= 0)	//// ? > screen resolution
+			error('r');
 		free(el[1]);
 		free(el[0]);
 	}
 	if (ft_strncmp(symb, "NO", 2) == 0)
-		(*map_data).north = ft_strdup(map);
+		((*map_data).north = ft_strdup(map)) ? 0 : error('m');
 	else if (ft_strncmp(symb, "SO", 2) == 0)
-		(*map_data).south = ft_strdup(map);
+		((*map_data).south = ft_strdup(map)) ? 0 : error('m');
 	else if (ft_strncmp(symb, "WE", 2) == 0)
-		(*map_data).west = ft_strdup(map);
+		((*map_data).west = ft_strdup(map)) ? 0 : error('m');
 	else if (ft_strncmp(symb, "EA", 2) == 0)
-		(*map_data).east = ft_strdup(map);
+		((*map_data).east = ft_strdup(map)) ? 0 : error('m');
 	else if (ft_strncmp(symb, "S", 2) == 0)
-		(*map_data).sprite = ft_strdup(map);
+		((*map_data).sprite = ft_strdup(map)) ? 0 : error('m');
 	else
-		return (0);	
+		return (0);
 	return (1);
 }
-
-/* void	is_valid()
-{
-	ft_putendl_fd('Error', 1);
-	ft_putendl_fd('Invalid map', 1);
-} */

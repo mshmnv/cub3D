@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 17:51:16 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/19 18:21:40 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/20 13:17:41 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <fcntl.h>
 # include <math.h>
 
-# define SCALE		150
+# define SCALE		100
 # define KEY_A		0
 # define KEY_W		13
 # define KEY_D		2
@@ -66,17 +66,6 @@ typedef struct	s_texture
 	int			height;
 }				t_texture;
 
-// typedef struct	s_sprite
-// {
-// 	void        *img;
-//     char        *addr;
-//     int         bits_per_pixel;
-//     int         line_length;
-//     int         endian;
-// 	int			width;
-// 	int			height;
-// }				t_sprite;
-
 typedef struct	s_map
 {
 	int			screen_height;
@@ -109,7 +98,7 @@ t_map			into_struct(char *map, char *symb);
 int				into_struct_2(char *map, char *symb, t_map *map_data);
 // mlx
 void			mlx(char **map, t_map *map_data);
-void			texture_structs(t_params *params, t_map *map_data, t_texture *texture, char side);
+void			texture_structs(t_params *params, t_map *map_data, t_texture *texture);
 void			pixel_put(t_params *params, int x, int y, int color);
 void			print_square(t_params *params, int x, int y, int color);
 void			print_map(t_all *all);
@@ -127,4 +116,6 @@ void			print_3d(t_all *all, float dist, int num_ray, int text_x, t_texture *text
 float			fix_ray(float ray);
 void			color_screen(t_all *all);
 void			print_sprites(t_all *all);
+//	error
+void			error(char key);
 #endif
