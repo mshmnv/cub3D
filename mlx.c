@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 16:51:01 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/20 20:38:12 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/21 23:21:27 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	mlx(char **map, t_map	*map_data)
 	params.mlx = mlx_init();
 	int i = 0;
 	texture_structs(&params, map_data, texture);
-	sprite.img = mlx_xpm_file_to_image(params.mlx, map_data->sprite, &sprite.width, &sprite.height);
+	sprite.img = mlx_xpm_file_to_image(params.mlx, map_data->west, &sprite.width, &sprite.height);
 	sprite.addr = mlx_get_data_addr(sprite.img, &sprite.bits_per_pixel, &sprite.line_length, &sprite.endian);
 	params.win = mlx_new_window(params.mlx, map_data->screen_width, map_data->screen_height, "CUB3D");
 	params.img = mlx_new_image(params.mlx, map_data->screen_width, map_data->screen_height);
