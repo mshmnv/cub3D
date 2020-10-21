@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 16:51:01 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/20 13:44:44 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/20 20:38:12 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	mlx(char **map, t_map	*map_data)
 	cast_rays(&all);
 	print_map(&all);
 	
-	// print_sprites(&all);
+	print_sprites(&all);
 	
 	mlx_loop_hook(params.mlx, display, &all);
 	mlx_hook(all.params->win, 2, 1L << 0, press_key, &all);
@@ -167,7 +167,7 @@ int		display(t_all *all)
 	cast_rays(all);
 	print_map(all);
 
-	// print_sprites(all);
+	print_sprites(all);
 	
 	mlx_put_image_to_window(all->params->mlx, all->params->win, all->params->img, 0, 0);
 	mlx_do_sync(all->params->mlx);
