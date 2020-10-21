@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/05 09:29:00 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/21 14:16:53 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/21 20:33:41 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,25 @@
 
 void	print_sprites(t_all *all)
 {
+	char	*color;
 	float	x;
 	float	y;
 	float	sprite_dir;
 	float	sprite_dist;
-
 	int		x_mid;
 	int		x_start;
 	int 	x_end;
-	int		line_height;
-	int		line_end;
-	int 	line_start;
+	int		sprite_height;
+	int		y_end;
+	int 	y_start;
 	int		pp;
 	int		screen_pos;
+	int 	y_save;
+
+	float		y_text;
+	int			x_text;
+	float		y_step;
+	float		save_y_text;
 	
 	y = 0;
 	while (all->map[(int)y])
@@ -36,37 +42,47 @@ void	print_sprites(t_all *all)
 		{
 			if (all->map[(int)y][(int)x] == '2')
 			{
-				sprite_dir = atan2(y * SCALE + SCALE / 2 - all->player->y, x * SCALE + SCALE / 2 - all->player->x) + PI / 6;
+				sprite_dir = atan2(y * SCALE + SCALE / 2 - all->player->y, x * SCALE + SCALE / 2 - all->player->x);
 				sprite_dir = fix_ray(sprite_dir);
-				if ((sprite_dir - all->player->dir) >= 0 && (sprite_dir - all->player->dir) <= PI / 3)
+				if ((sprite_dir - all->player->dir) >= - PI / 6 && (sprite_dir - all->player->dir) <= PI / 6)
 				{
 					pixel_put(all->params, x * 16, y * 16, 0xFFFFFF);
 					sprite_dist = sqrt(pow(all->player->x - x * SCALE + SCALE / 2, 2) + pow(all->player->y - y * SCALE + SCALE / 2, 2));
-					// x_mid = all->map_data->screen_width * sprite_dir / (PI / 3);
-					// PP -  расстояние до горизонта
 					pp = all->map_data->screen_width / 2 / tan(PI / 6);
-					screen_pos = all->map_data->screen_width / 2 + pp / tan(sprite_dir);
-					x_start = screen_pos - all->sprite->width / 2;
-					x_end = (x * SCALE + SCALE / 2) + all->sprite->width / 2;
-					printf("%d  - %d\n", x_start, x_end);
-					// if (x_start < 0)
-					// 	x_start = 0;
-					// if (x_end > all->map_data->screen_height)
-					// 	x_end = all->map_data->screen_height;
-					line_height = (SCALE * all->map_data->screen_height) / sprite_dist;
-					line_start = all->map_data->screen_height / 2 - line_height / 2;
-					if (line_start < 0)
-						line_start = 0;
-					line_end = line_start + line_height;
-					if (line_end > all->map_data->screen_height)
-						line_end = all->map_data->screen_height;
-					while(x_start < x_end)
+					screen_pos = all->map_data->screen_width / 2 + pp * tan(sprite_dir - all->player->dir);
+					sprite_height = fabs((SCALE * pp) / (sprite_dist * cos(sprite_dir - all->player->dir)));
+
+					x_start = screen_pos - sprite_height / 2;
+					x_end = screen_pos + sprite_height / 2;
+					if (x_start < 0)
+						break ;
+					if (x_end > all->map_data->screen_width)
+						x_end = all->map_data->screen_width;
+					
+					y_start = all->map_data->screen_height / 2 - sprite_height / 2;
+					y_end = all->map_data->screen_height / 2 + sprite_height / 2;
+					if (y_start < 0)
+						y_start = 0;
+					if (y_end > all->map_data->screen_height)
+						y_end = all->map_data->screen_height;
+					y_save = y_start;
+
+						
+					y_step = (float)all->sprite->height / (float)sprite_height;
+					y_text = (y_start - all->map_data->screen_height / 2  + sprite_height / 2) * y_step;
+					save_y_text  = y_text;
+					while (x_start < x_end)
 					{
-						while (line_start < line_end)
+						y_start = y_save;
+						y_text = save_y_text;
+						while (y_start < y_end)
 						{
-							// color = texture->addr + (((int)text_y * texture->line_length) + (text_x * (texture->bits_per_pixel / 8)));
-							pixel_put(all->params, x_start, line_start, 0xFFFFFF);
-							line_start++;
+							x_text = (all->sprite->width * (x_start % SCALE)) / SCALE;
+							color = all->sprite->addr + (((int)y_text * all->sprite->line_length) + (x_text * (all->sprite->bits_per_pixel / 8)));
+							if (color != 0x000000)
+								pixel_put(all->params, x_start, y_start, *(unsigned int *)color);
+							y_start++;
+							y_text += y_step;
 						}
 						x_start++;
 					}
@@ -120,7 +136,6 @@ void	print_3d(t_all *all, float dist, int num_ray, int text_x, t_texture *textur
 	float	y_step;
 	float	text_y;
 	int		y_print;
-
 
 	line_height = (SCALE * all->map_data->screen_height) / dist;
 	y_step = (float)texture->height / (float)line_height;
