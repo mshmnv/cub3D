@@ -1,21 +1,41 @@
 .PHONY: all clean fclean re norme
 
-SRC = mlx.c read_map.c rays.c print_3d.c error.c
-
 NAME = cub3D
+
+SRC = main.c mlx.c read_map.c rays.c print_3d.c error.c screenshot.c get_next_line/get_next_line.c sprites.c
+
+SRCO = $(SRC:.c=.o)
+
+LIBFT = libft/libft.a
+
+MLX = libmlx.dylib
 
 all: $(NAME)
 
-$(NAME): $(SRC) main.c cub3d.h
-	gcc main.c $(SRC) get_next_line/get_next_line.c libft/libft.a libmlx.dylib -framework OpenGL -framework Appkit -o $(NAME)
+$(NAME): $(SRCO) $(LIBFT) $(MLX)  cub3d.h
+	gcc libft/libft.a libmlx.dylib -framework OpenGL -framework Appkit $(SRCO) -o $(NAME)
+
+$(LIBFT):
+	make -C ./libft
+
+$(MLX):
+	make -C ./mlx
+	cp mlx/libmlx.dylib ./
+
+%.o:%.c cub3d.h
+	gcc -I mlx -c $< -o $@
 
 clean:
-	rm -f *.o
+	rm -f $(SRCO)
+	make clean -C ./libft/
 
 fclean: clean
 	rm -f $(NAME)
+	rm -f libmlx.dylib
+	rm -f ./mlx/libmlx.dylib
+	make clean -C ./libft/
 
-re: clean fclean all
+re: fclean all
 
 norme:
-	norminette mlx.c main.c read_map.c rays.c print_3d.c error.c
+	norminette $(SRC)

@@ -6,23 +6,30 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 11:17:53 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/20 13:41:38 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/23 10:19:44 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	error(char key)
+void	error(int key)
 {
-	if (key == 'a')
-		ft_putendl_fd("Invalid number of arguments", 1);
-	if (key == 'm')
+	if (key == er_arg)
+		ft_putendl_fd("Invalid arguments", 1);
+	if (key == er_malloc)
 		ft_putendl_fd("Malloc error", 1);
-	if (key == 't')
-		ft_putendl_fd("Invalid texture path", 1);
-	if (key == 'r')
-		ft_putendl_fd("Invalid resolution size", 1);
-	if (key == 'p')
+	if (key == er_text_path)
+		ft_putendl_fd("Invalid texture path", 1);  // + все текстуры разные
+	if (key == er_res_size)
+		ft_putendl_fd("Invalid resolution size", 1);	// + не больше экрана устройства
+	if (key == er_more_players)
 		ft_putendl_fd("More then one player on the map", 1);
+	if (key == er_screenshot)
+		ft_putendl_fd("Failed to create screenshot", 1);
+	if (key == er_map)
+		ft_putendl_fd("Invalid map", 1);
+	if (key == er_color)
+		ft_putendl_fd("Invalid floor and ceiling color", 1);
+	// только один флаг и все есть RCF NWES
 	exit(0);
 }
