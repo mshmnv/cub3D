@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 17:51:16 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/24 21:36:56 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/25 11:06:52 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # define KEY_LEFT			123
 # define KEY_RIGHT			124
 # define PI					3.1415926535
+# define er_open			0
 # define er_arg				1
 # define er_malloc			2
 # define er_text_path		3
@@ -118,6 +119,7 @@ char			**read_map(char *line, t_list **head);
 t_map			get_map_info(char **map, int *start_map);
 t_map			into_struct(char *map, char *symb);
 int				into_struct_2(char *map, char *symb, t_map *map_data);
+void			free_map(char ***map, t_map	*map_data, t_list **lst);
 // mlx
 void			mlx(char **map, t_map *map_data);
 void			texture_structs(t_all *all, t_map *map_data, t_texture *texture);
@@ -137,15 +139,17 @@ int				height_len(char **map);
 void			print_3d(t_all *all, float dist, int num_ray, int text_x, t_texture *texture);
 float			fix_ray(float ray);
 void			color_screen(t_all *all);
-// sprites
+// find_sprites
 void			find_sprites(t_all *all);
 t_sprite		*new_sprite(t_all *all, float x, float y);
 void			add_back_sprite(t_sprite **sprite, t_sprite *new);
-void			culc_sprite(t_all *all, t_sprite *sprite);
-void			print_sprites(t_all *all);
-void			draw_sprite(t_all *all, int sprite_x, int sprite_y, float coef, t_sprite *sprite);
 void			sort_sprites(t_all *all);
 void			swap_sprites(t_sprite **head, t_sprite *first, t_sprite * second);
+// print_sprites
+void			print_sprites(t_all *all);
+void			culc_sprite(t_all *all, t_sprite *sprite);
+int				no_walls(t_all *all, t_sprite *tmp);
+void			draw_sprite(t_all *all, t_point *point, float coef, t_sprite *sprite);
 // error
 void			error(int key);
 // screenshot

@@ -2,7 +2,7 @@
 
 NAME = cub3D
 
-SRC = main.c mlx.c read_map.c rays.c print_3d.c error.c screenshot.c get_next_line/get_next_line.c sprites.c
+SRC = main.c mlx.c read_map.c rays.c print_3d.c error.c screenshot.c get_next_line/get_next_line.c find_sprites.c print_sprites.c
 
 SRCO = $(SRC:.c=.o)
 

@@ -6,14 +6,21 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 11:17:53 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/23 10:19:44 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/25 10:58:42 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+void	free_all(t_all *all)
+{
+
+}
+
 void	error(int key)
 {
+	if (key == er_open)
+		ft_putendl_fd("Error opening file", 1);
 	if (key == er_arg)
 		ft_putendl_fd("Invalid arguments", 1);
 	if (key == er_malloc)
