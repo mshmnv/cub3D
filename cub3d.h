@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 17:51:16 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/25 11:06:52 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/25 20:26:47 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,11 +115,15 @@ typedef struct s_all
 	t_map		*map_data;
 }				t_all;
 
-char			**read_map(char *line, t_list **head);
-t_map			get_map_info(char **map, int *start_map);
-t_map			into_struct(char *map, char *symb);
-int				into_struct_2(char *map, char *symb, t_map *map_data);
-void			free_map(char ***map, t_map	*map_data, t_list **lst);
+// main
+char			**read_map(t_list **head);
+void			init_map_data(t_map *map_data);
+void			free_map_data(char ***map, t_map *map_data, t_list **lst);
+// read_map
+void			get_map_info(char **map, t_map *map_data, int *start_map);
+void			into_struct(char *value, char *key, t_map *map_data);
+void			into_struct_res(char *width, char *height, char *key, t_map *map_data);
+void			into_struct_2(char *value, char *key, t_map *map_data);
 // mlx
 void			mlx(char **map, t_map *map_data);
 void			texture_structs(t_all *all, t_map *map_data, t_texture *texture);
@@ -141,7 +145,7 @@ float			fix_ray(float ray);
 void			color_screen(t_all *all);
 // find_sprites
 void			find_sprites(t_all *all);
-t_sprite		*new_sprite(t_all *all, float x, float y);
+t_sprite		*new_sprite(float x, float y);
 void			add_back_sprite(t_sprite **sprite, t_sprite *new);
 void			sort_sprites(t_all *all);
 void			swap_sprites(t_sprite **head, t_sprite *first, t_sprite * second);

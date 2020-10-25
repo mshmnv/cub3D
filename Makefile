@@ -6,6 +6,8 @@ SRC = main.c mlx.c read_map.c rays.c print_3d.c error.c screenshot.c get_next_li
 
 SRCO = $(SRC:.c=.o)
 
+FLAGS = -Wall -Wextra -Werror
+
 LIBFT = libft/libft.a
 
 MLX = libmlx.dylib
@@ -23,7 +25,7 @@ $(MLX):
 	cp mlx/libmlx.dylib ./
 
 %.o:%.c cub3d.h
-	gcc -I mlx -c $< -o $@
+	gcc $(FLAGS) -I mlx -c $< -o $@
 
 clean:
 	rm -f $(SRCO)

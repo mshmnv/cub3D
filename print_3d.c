@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/05 09:29:00 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/24 16:10:21 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/25 17:52:57 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ void	print_3d(t_all *all, float dist, int num_ray, int text_x, t_texture *textur
 	int		line_end;
 	float	y_step;
 	float	text_y;
-	int		y_print;
 
 	line_height = (SCALE * all->map_data->screen_height) / dist;
 	y_step = (float)texture->height / (float)line_height;

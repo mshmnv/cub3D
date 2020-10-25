@@ -6,16 +6,11 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 11:17:53 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/25 10:58:42 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/25 18:21:08 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-void	free_all(t_all *all)
-{
-
-}
 
 void	error(int key)
 {
@@ -37,6 +32,10 @@ void	error(int key)
 		ft_putendl_fd("Invalid map", 1);
 	if (key == er_color)
 		ft_putendl_fd("Invalid floor and ceiling color", 1);
-	// только один флаг и все есть RCF NWES
 	exit(0);
 }
+
+// void	error_free(t_all *all, int key)
+// {
+
+// }

@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/24 16:09:09 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/25 10:47:40 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/25 17:53:53 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void		find_sprites(t_all *all)
 		{
 			if (all->map[y][x] == '2')
 			{
-				add_back_sprite(&all->sprites, new_sprite(all, x, y));
+				add_back_sprite(&all->sprites, new_sprite(x, y));
 			}
 			x++;
 		}
@@ -50,7 +50,7 @@ void		add_back_sprite(t_sprite **sprite, t_sprite *new)
 	}
 }
 
-t_sprite	*new_sprite(t_all *all, float x, float y)
+t_sprite	*new_sprite(float x, float y)
 {
 	t_sprite	*sprite;
 
@@ -68,7 +68,6 @@ t_sprite	*new_sprite(t_all *all, float x, float y)
 void		sort_sprites(t_all *all)
 {
 	t_sprite	*tmp;
-	t_sprite	*prev;
 	int			change;
 
 	change = 1;
