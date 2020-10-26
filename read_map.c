@@ -6,16 +6,11 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 17:53:18 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/25 20:35:15 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/26 00:01:31 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-// int		valid_map(char **map)
-// {
-	
-// }
 
 void	get_map_info(char **map, t_map *map_data, int *start_map)
 {
@@ -38,6 +33,8 @@ void	get_map_info(char **map, t_map *map_data, int *start_map)
 		}
 		i++;
 	}
+	if (!(valid_path(map_data)))
+		error(er_map);
 }
 
 void	what_color(char **el, t_map *map_data, char key)

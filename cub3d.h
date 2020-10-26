@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 17:51:16 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/25 20:26:47 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/25 23:57:10 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,9 @@ void			get_map_info(char **map, t_map *map_data, int *start_map);
 void			into_struct(char *value, char *key, t_map *map_data);
 void			into_struct_res(char *width, char *height, char *key, t_map *map_data);
 void			into_struct_2(char *value, char *key, t_map *map_data);
+// valid
+// int				valid_map(char **map);
+int				valid_path(t_map *map_data);
 // mlx
 void			mlx(char **map, t_map *map_data);
 void			texture_structs(t_all *all, t_map *map_data, t_texture *texture);

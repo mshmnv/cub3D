@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 17:44:44 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/25 20:28:22 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/26 01:07:09 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int		main(int argc, char **argv)
 	t_map	map_data;
 	int		start_map;
 
-	if (argc != 2 && (argc == 3 && ft_strncmp(argv[2], "--save", ft_strlen(argv[2])) != 0))
+	if ((argc < 2 || argc > 3) || (argc == 3 && ft_strncmp(argv[2], "--save", ft_strlen(argv[2])) != 0))
 		error(er_arg);
 	if (!(fd = open(argv[1], O_RDONLY)))
 		error(er_open);

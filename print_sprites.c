@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 10:05:26 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/25 10:31:03 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/26 01:03:57 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,19 +36,29 @@ void	print_sprites(t_all *all)
 
 int		no_walls(t_all *all, t_sprite *tmp)
 {
-	float	x;
-	float	y;
+	float	dir[3];
+	int		dist[3];
 	int		i;
+	int		n;
 
-	x = all->player->x;
-	y = all->player->y;
-	i = 0;
-	while (i <= tmp->dist)
+	dir[0] = tmp->dir;
+	dist[0] = tmp->dist;
+	dir[1] = fix_ray(atan2(tmp->y - SCALE / 4 - all->player->y,
+		tmp->x - SCALE / 4 - all->player->x));
+	dist[1] = sqrt(pow(all->player->x - tmp->x - SCALE / 4, 2)
+		+ pow(all->player->y - tmp->y - SCALE / 4, 2));
+	dir[2] = fix_ray(atan2(tmp->y + SCALE / 4 - all->player->y,
+		tmp->x + SCALE / 4 - all->player->x));
+	dist[2] = sqrt(pow(all->player->x - tmp->x + SCALE / 4, 2)
+		+ pow(all->player->y - tmp->y + SCALE / 4, 2));
+	n = -1;
+	while (++n < 3)
 	{
-		if (all->map[(int)(y + i * sin(tmp->dir)) / SCALE]
-			[(int)(x + i * cos(tmp->dir)) / SCALE] == '1')
-			return (0);
-		i++;
+		i = -1;
+		while (++i <= dist[n])
+			if (all->map[(int)(all->player->y + i * sin(dir[n])) / SCALE]
+				[(int)(all->player->x + i * cos(dir[n])) / SCALE] == '1')
+				return (0);
 	}
 	return (1);
 }
