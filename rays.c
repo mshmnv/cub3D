@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/25 18:43:43 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/27 13:52:36 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/27 22:14:16 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ void		cast_rays(t_all *all)
 	ray[0].an = all->player->dir - M_PI / 6;
 	ray[1].an = all->player->dir - M_PI / 6;
 	num_ray = 0;
+	malloc_arr(all);
 	while (num_ray < all->map_data->screen_width)
 	{
 		ray[0].len = horizont_length(&ray[0], all);
@@ -129,4 +130,5 @@ void		cast_rays(t_all *all)
 			/ all->map_data->screen_width);
 		num_ray++;
 	}
+	print_sprites(all);
 }

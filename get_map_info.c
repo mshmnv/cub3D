@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 17:53:18 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/27 13:58:43 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/27 22:57:47 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void	get_map_info(char **map, t_map *map_data)
 	int		i;
 	char	**str;
 
-	i = 0;
-	while (map[i])
+	i = -1;
+	while (map[++i])
 	{
 		str = ft_split(map[i], ' ');
 		if (str[0] && str[1] && str[2])
@@ -30,12 +30,12 @@ void	get_map_info(char **map, t_map *map_data)
 			valid_map(map + i);
 			map_data->map += i;
 			free_arr(str);
+			map_data->flag_map = 1;
 			break ;
 		}
 		else if (str[0] && str[0][0])
 			error(ER_MAP);
 		free_arr(str);
-		i++;
 	}
 	valid_path_text(map_data);
 	valid_keys(map_data);

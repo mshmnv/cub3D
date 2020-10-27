@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/05 09:29:00 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/27 13:52:04 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/27 22:17:42 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	print_3d(t_all *all, int n_ray, int x, t_texture *texture)
 	+ line_height / 2) * y_step;
 	while (line_start < line_end)
 	{
+		all->d_arr[line_start][n_ray] = all->dist;
 		pixel_put(all->data, n_ray, line_start, *(unsigned int *)(texture->addr
 		+ (((int)y * texture->line_len) + (x * (texture->bpp / 8)))));
 		line_start++;

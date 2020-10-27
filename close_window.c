@@ -1,23 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   close_window.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/29 20:17:03 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/27 22:48:58 by lbagg            ###   ########.fr       */
+/*   Created: 2020/10/27 23:13:54 by lbagg             #+#    #+#             */
+/*   Updated: 2020/10/27 23:14:40 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "cub3d.h"
 
-size_t	ft_strlen(const char *s)
+int		close_window(t_all *all)
 {
-	size_t i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
+	if (all->map_data->north)
+		free(all->map_data->north);
+	if (all->map_data->south)
+		free(all->map_data->south);
+	if (all->map_data->east)
+		free(all->map_data->east);
+	if (all->map_data->west)
+		free(all->map_data->west);
+	if (all->map_data->sprite)
+		free(all->map_data->sprite);
+	if (all->d_arr)
+		free_int_arr(all->d_arr);
+	exit(0);
 }

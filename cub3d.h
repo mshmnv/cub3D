@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 17:51:16 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/27 16:01:30 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/27 23:40:19 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ typedef struct		s_map
 	int				screenshot;
 	char			**map;
 	char			**head_map;
+	int				flag_map;
 }					t_map;
 
 typedef struct		s_all
@@ -118,11 +119,12 @@ typedef struct		s_all
 	t_sprite		*sprites;
 	t_map			*map_data;
 	float			dist;
+	int				**d_arr;
 }					t_all;
 
 char				**read_map(t_list **head);
 void				init_map_data(t_map *map_data);
-void				free_map_data(t_map *map_data, t_list **lst, char **head);
+void				free_map_data(t_map *map_data, t_list **lst, char **map);
 void				free_arr(char **arr);
 void				get_map_info(char **map, t_map *map_data);
 void				into_struct(char *value, char *key, t_map *map_data);
@@ -130,12 +132,16 @@ void				into_struct_res(char *width, char *height, char *key,
 					t_map *map_data);
 void				into_struct_2(char *value, char *key, t_map *map_data);
 void				valid_map(char **map);
+void				check_nulls(char **map, int i, int j);
 void				check_frame(char *str, int *j);
 void				valid_keys(t_map *map_data);
 void				valid_path_text(t_map *map_data);
 void				open_window(t_map *map_data);
+void				free_int_arr(int **arr);
+void				malloc_arr(t_all *all);
 void				texture_structs(t_all *all, t_map *map_data,
 					t_texture *texture);
+int					close_window(t_all *all);
 void				find_player(t_all *all, char **map);
 int					press_key(int key, t_all *all);
 int					display(t_all *all);
@@ -161,4 +167,8 @@ void				draw_sprite(t_all *all, t_point *point, float coef,
 					t_sprite *sprite);
 void				error(int key);
 void				screenshot(t_all *all);
+void				left(t_all *all);
+void				right(t_all *all);
+void				down(t_all *all);
+void				up(t_all *all);
 #endif
