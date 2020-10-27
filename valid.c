@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 23:51:03 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/27 13:56:50 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/27 16:20:31 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ void	valid_map(char **map)
 				(++player > 1) ? error(ER_MORE_PLAYER) : 0;
 			j++;
 		}
-		if (map[i][j] != '\0')
-			error(ER_MAP);
+		((map[i][j] != '\0') || (map[i][j - 1] != '1')) ? error(ER_MAP) : 0;
 	}
 	j = 0;
 	check_frame(map[i - 1], &j);
+	(!player) ? error(ER_MAP) : 0;
 }
 
 void	check_frame(char *str, int *j)

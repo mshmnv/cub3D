@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 17:44:44 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/27 13:59:04 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/27 16:15:13 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void	init_map_data(t_map *map_data)
 	map_data->west = NULL;
 	map_data->east = NULL;
 	map_data->sprite = NULL;
+	map_data->screenshot = 0;
 }
 
 void	free_map_data(t_map *map_data, t_list **lst, char **map)

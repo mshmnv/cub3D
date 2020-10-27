@@ -6,7 +6,7 @@ SRC = main.c get_map_info.c valid.c open_window.c pixel_put.c rays.c print_3d.c 
 
 SRCO = $(SRC:.c=.o)
 
-FLAGS = -Wall -Wextra -Werror -g
+FLAGS = -Wall -Wextra -Werror
 
 LIBFT = libft/libft.a
 
