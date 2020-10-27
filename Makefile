@@ -2,11 +2,11 @@
 
 NAME = cub3D
 
-SRC = main.c read_map.c valid.c mlx.c rays.c print_3d.c find_sprites.c print_sprites.c error.c screenshot.c get_next_line/get_next_line.c
+SRC = main.c get_map_info.c valid.c open_window.c pixel_put.c rays.c print_3d.c find_sprites.c print_sprites.c error.c screenshot.c get_next_line/get_next_line.c
 
 SRCO = $(SRC:.c=.o)
 
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -g
 
 LIBFT = libft/libft.a
 
@@ -15,7 +15,7 @@ MLX = libmlx.dylib
 all: $(NAME)
 
 $(NAME): $(SRCO) $(LIBFT) $(MLX)  cub3d.h
-	@gcc libft/libft.a libmlx.dylib -framework OpenGL -framework Appkit $(SRCO) -o $(NAME)
+	@gcc -g libft/libft.a libmlx.dylib -framework OpenGL -framework Appkit $(SRCO) -o $(NAME)
 
 $(LIBFT):
 	@make -C ./libft
@@ -40,4 +40,4 @@ fclean: clean
 re: fclean all
 
 norme:
-	@norminette $(SRC)
+	@norminette $(SRC) cub3d.h

@@ -6,19 +6,18 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 19:34:47 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/26 00:12:24 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/27 14:00:43 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static int	get_color(t_params *params, int x, int y)
+static int	get_color(t_data *data, int x, int y)
 {
 	char	*dst;
 	int		color;
 
-	dst = params->addr + (y * params->line_length
-			+ x * (params->bits_per_pixel / 8));
+	dst = data->addr + (y * data->line_len + x * (data->bpp / 8));
 	color = *(int*)dst;
 	return (color);
 }
@@ -43,7 +42,7 @@ static void	print_color(t_all *all, int fd)
 		j = 0;
 		while (j < all->map_data->screen_width)
 		{
-			color = get_color(all->params, j, i);
+			color = get_color(all->data, j, i);
 			write(fd, &color, 3);
 			j++;
 		}
@@ -61,7 +60,7 @@ void		screenshot(t_all *all)
 	filesize = ((all->map_data->screen_height * all->map_data->screen_width)
 			* 4) + 54;
 	((fd = open("screenshot.bmp", O_WRONLY | O_CREAT | O_TRUNC |
-		O_APPEND, 0666)) < 0) ? error(er_screenshot) : 0;
+		O_APPEND, 0666)) < 0) ? error(ER_SCREENSHOT) : 0;
 	count = 0;
 	while (count < 54)
 		arr[count++] = 0;

@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/24 16:09:09 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/25 17:53:53 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/27 14:00:19 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ void		find_sprites(t_all *all)
 
 	y = 0;
 	all->sprites = NULL;
-	while (all->map[y])
+	while (all->map_data->map[y])
 	{
 		x = 0;
-		while (all->map[y][x])
+		while (all->map_data->map[y][x])
 		{
-			if (all->map[y][x] == '2')
+			if (all->map_data->map[y][x] == '2')
 			{
 				add_back_sprite(&all->sprites, new_sprite(x, y));
 			}
@@ -55,7 +55,7 @@ t_sprite	*new_sprite(float x, float y)
 	t_sprite	*sprite;
 
 	if (!(sprite = (t_sprite*)malloc(sizeof(t_sprite))))
-		error(er_malloc);
+		error(ER_MALLOC);
 	sprite->x = x * SCALE + SCALE / 2;
 	sprite->y = y * SCALE + SCALE / 2;
 	sprite->dist = 0;
