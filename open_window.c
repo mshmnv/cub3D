@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 16:51:01 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/27 23:38:32 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/28 16:20:37 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void		texture_structs(t_all *all, t_map *map_data, t_texture *texture)
 	all->text_so = &texture[1];
 	all->text_we = &texture[2];
 	all->text_ea = &texture[3];
-	all->texture_sprite = &texture[4];
+	all->text_spr = &texture[4];
 }
 
 int			press_key(int key, t_all *all)

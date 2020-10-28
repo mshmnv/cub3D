@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 10:05:26 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/27 21:16:56 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/28 16:19:28 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	culc_sprite(t_all *all, t_sprite *sprite)
 
 void	draw_sprite(t_all *all, t_point *point, float coef, t_sprite *sprite)
 {
-	char	*color;
+	char	*col;
 	int		x;
 	int		y;
 
@@ -65,18 +65,18 @@ void	draw_sprite(t_all *all, t_point *point, float coef, t_sprite *sprite)
 		x = 0;
 		while (++x < sprite->height)
 		{
-			if ((point->x + y < all->map_data->screen_width && y + point->x
-			>= 0) && (all->d_arr[point->y + x][point->x + y] > sprite->dist ||
-			!all->d_arr[point->y + x][point->x + y]))
+			if (point->x + y < all->map_data->screen_width && y + point->x >= 0
+			&& x + point->y >= 0 && point->y + x < all->map_data->screen_height
+			&& (all->d_arr[point->y + x][point->x + y] == 0 ||
+			all->d_arr[point->y + x][point->x + y] > sprite->dist))
 			{
-				color = all->texture_sprite->addr + (((int)(x * coef) *
-					all->texture_sprite->line_len) + ((int)(y * coef) *
-					(all->texture_sprite->bpp / 8)));
-				if ((*(unsigned int *)color & 0x00FFFFFF) != 0 && point->y + x >
+				col = all->text_spr->addr + (((int)(x * coef) * all->text_spr
+				->line_len) + ((int)(y * coef) * (all->text_spr->bpp / 8)));
+				if ((*(unsigned int *)col & 0x00FFFFFF) != 0 && point->y + x >
 			0 && point->x + y > 0 && point->x + y < all->map_data->screen_width
 				&& point->y + x < all->map_data->screen_height)
 					pixel_put(all->data, point->x + y, point->y + x,
-						*(unsigned int *)color);
+						*(unsigned int *)col);
 			}
 		}
 	}

@@ -30,14 +30,14 @@ $(MLX):
 clean:
 	@rm -f $(SRCO)
 	@make clean -C ./libft/
+	@make clean -C ./mlx/
 
 fclean: clean
 	@rm -f $(NAME)
 	@rm -f libmlx.dylib
 	@rm -f ./mlx/libmlx.dylib
-	@make clean -C ./libft/
 
 re: fclean all
 
 norme:
-	@norminette $(SRC) cub3d.h
+	@norminette $(SRC) cub3d.h ./libft/*.c

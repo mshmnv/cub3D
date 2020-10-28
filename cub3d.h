@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 17:51:16 by lbagg             #+#    #+#             */
-/*   Updated: 2020/10/27 23:40:19 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/10/28 16:18:05 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ typedef struct		s_all
 	t_texture		*text_so;
 	t_texture		*text_we;
 	t_texture		*text_ea;
-	t_texture		*texture_sprite;
+	t_texture		*text_spr;
 	t_sprite		*sprites;
 	t_map			*map_data;
 	float			dist;
