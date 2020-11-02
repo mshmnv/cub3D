@@ -1,6 +1,6 @@
 # CUB3D
 ## graphic design project using raycasting technique
-
+![Result] (/img/result.png)
 ![Screenshot] (https://github.com/mshmnv/cub3D/blob/master/screen.png)
 
 * WASD to move
