@@ -7,4 +7,4 @@
 * Textures or colors for each sides (North, South, West, East)
 * Sprites
 
-![GitHub Logo] (/img/screen.png)
+![Screenshot] (screen.png)
