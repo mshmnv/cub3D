@@ -1,8 +1,6 @@
 # CUB3D
 ## graphic design project using raycasting technique
 
-![Result](/img/result.png)
-
 * WASD to move
 * Left/Right directional keys to rotate camera
 * ESC / red cross to quit
